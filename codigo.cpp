@@ -1,29 +1,95 @@
 #include <iostream>
-#include <string>
-#include <iomanip>
 using namespace std;
 
-class Pelicula {
+class Calculadora {
 private:
-    string titulo;
-    int duracion;
-    double precio;
+    float primero;
+    float segundo;
+
+    bool comprobar() {
+        return (segundo != 0.0);
+    }
 
 public:
-    Pelicula();
+    Calculadora() {
+        primero = 0.0;
+        segundo = 0.0;
+    }
 
-    void setTitulo(string& nuevoTitulo);
-    void setDuracion(int nuevaDuracion);
-    void setPrecio(double nuevoPrecio);
+    void setNumeros(float a, float b) {
+        primero = a;
+        segundo = b;
+    }
 
-    string getTitulo();
-    int getDuracion();
-    double getPrecio();
+    float getPrimero() { return primero; }
+    float getSegundo() { return segundo; }
 
-    void mostrarInformacion();
+    float sumar() { return primero + segundo; }
+    float restar() { return primero - segundo; }
+    float multiplicar() { return primero * segundo; }
+
+    bool dividir(float& resultado) {
+        if (comprobar()) {
+            resultado = primero / segundo;
+            return true;
+        }
+        return false;
+    }
 };
-Pelicula::Pelicula(){
-	titulo = "(Sin título)";
-	duracion = 0;
-	precio = 0.0;
+
+int main() {
+    Calculadora casio;
+    
+    int opcion;
+    float n1, n2, resDiv;
+
+    do {
+        cout << "-----MENU CALCULADURA-----\n";
+        cout << "1. Establecer numeros\n";
+        cout << "2. Realizar las cuatro operaciones\n";
+        cout << "3. Consultar los numeros almacenados\n";
+        cout << "4. Salir\n";
+        cout << "Seleccione una opcion: ";
+        cin >> opcion;
+
+        switch (opcion) {
+            case 1:
+                cout << "\nIngrese el primer numero: ";
+                cin >> n1;
+                cout << "Ingrese el segundo numero: ";
+                cin >> n2;
+                casio.setNumeros(n1, n2);
+                cout << "¡Numeros guardados correctamente!\n";
+                break;
+
+            case 2:
+                cout << "\n--- RESULTADOS ---" << "\n";
+                cout << "Suma: " << casio.sumar() << "\n";
+                cout << "Resta: " << casio.restar() << "\n";
+                cout << "Multiplicacion: " << casio.multiplicar() << "\n";
+                
+                if (casio.dividir(resDiv)) {
+                    cout << "Division: " << resDiv << "\n";
+                } else {
+                    cout << "Division: Error, no se puede dividir entre cero.\n";
+                }
+                break;
+
+            case 3:
+                cout << "\n--- NUMEROS ALMACENADOS ---" << "\n";
+                cout << "Primer numero: " << casio.getPrimero() << "\n";
+                cout << "Segundo numero: " << casio.getSegundo() << "\n";
+                break;
+
+            case 4:
+                cout << "\nSaliendo del programa \n";
+                break;
+
+            default:
+                cout << "\n opcion no valida. Intente de nuevo.\n";
+        }
+    } while (opcion != 4);
+
+    return 0;
 }
+
